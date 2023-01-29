@@ -6,7 +6,9 @@
 	export let w;
 	export let h;
 	export let loopsInput = [1, 2, 3, 4];
-	export let loopsOutput = [1, 2];
+	export let loopsOutput = [1, 2, 3];
+    const minWidth = 100;
+    const minHeight = 200;
 
 	let isDragging = false;
 	let offset;
@@ -45,23 +47,21 @@
 
 <main
 	class="main"
-	on:pointerdown={handlePointerDown}
+	on:pointerdown|preventDefault|stopPropagation={handlePointerDown}
 	on:pointerup={handlePointerUp}
 	on:pointermove={handlePointerMove}
-	on:contextmenu|preventDefault={handleContextMenu}
+	on:contextmenu|preventDefault|stopPropagation={handleContextMenu}
 	style="
         left: {x}px; 
-        top: {y}px;
-        width: {w}px;
-        height: {h}px;"
+        top: {y}px;"
 >
 	<div class="header">
-		<span>{x}-{y}</span>
+		<span>NODE NAME</span>
 	</div>
 	<div class="body">
 		<div class="bar">
 			{#each loopsInput as loop}
-				<Loop />
+				<Loop isInput={true}/>
 			{/each}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div class='add-button'
@@ -80,7 +80,7 @@
 		</div>
 		<div class="bar">
 			{#each loopsOutput as loop}
-				<Loop />
+				<Loop isInput={false}/>
 			{/each}
 		</div>
 	</div>
@@ -91,12 +91,15 @@
 		position: absolute;
 		display: flex;
 		flex-direction: column;
-		/* grid-template-rows: auto 1fr; */
-		background-color: lightcoral;
-		border: solid black 1px;
-		border-radius: 10px;
-		/* justify-content: center; */
 
+		/* border-radius: 10px; */
+		/* justify-content: center; */
+        min-width: 100px;
+        min-height: 100px;
+        
+		background-color: lightcoral;
+		border: solid gray 1px;
+        
 		overflow: hidden;
 		user-select: none;
 	}
@@ -104,14 +107,19 @@
 	.header {
 		display: flex;
 		justify-content: center;
-		background-color: seashell;
-		line-height: 1.5em;
+
+		background-color: #d7dae5;
+        font-family: 'Mochiy Pop One', sans-serif;
+        font-size: medium;
+        color: #0b0c0d;
+
+        padding: 10px;
 	}
 
 	.body {
 		display: flex;
 		justify-content: space-between;
-		background-color: aqua;
+		background-color: #0b0c0d;
 		flex: 1;
 	}
 
@@ -135,4 +143,9 @@
 		text-align: center;
 	}
 
+    .add:hover {
+        fill: purple;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
 </style>

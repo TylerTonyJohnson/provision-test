@@ -1,19 +1,22 @@
 <script>
 	import Node from "./Node.svelte";
+	import Strand from "./Strand.svelte";
 
 	export let display = 'HEPPTY';
 
     const newNode = {    
             x: 10,
-            y: 20,
-            w: 100
+            y: 20
         }
 
     let nodes = [
+        newNode, 
         newNode
     ];
 
+    let strands = [1];
 
+//  Methods
 
 	function callAlert(event) {
 		alert(event.target.innerHTML);
@@ -22,9 +25,14 @@
     function addNode() {
         nodes = [...nodes, newNode];
     }
+
+    function handleContextMenu() {
+        alert("Context Menu!");
+    }
 </script>
 
-<main class="main">
+<main class="main"
+    on:contextmenu|preventDefault={handleContextMenu}>
 	<div class='ui'>
 		<span class="display">{display}</span>
 		<div class="buttons">
@@ -40,13 +48,16 @@
             h={node.h}
         />
     {/each}
+    {#each strands as strand}
+        <Strand/>
+    {/each}
 </main>
 
 <style>
 	.main {
 		position: relative;
 		display: block;
-		background-color: teal;
+		background-color: #16181a;
 		/* align-items: center; */
 		/* justify-content: center; */
 		width: 100%;
@@ -70,7 +81,13 @@
 		margin: 0 auto 0 auto;
 	}
 
-	.buttons {
-		margin: 0 auto 0 auto;
-	}
+    .buttons {
+        display: flex;
+        justify-content: center;
+    }
+
+    .buttons > * {
+        margin: 4px;
+    }
+
 </style>
