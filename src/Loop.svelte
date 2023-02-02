@@ -1,32 +1,40 @@
 <script>
-	export let isInput = true;
-    export let label = 'Loop Label';
-    export let type = 'String';
+	export let loop = {
+		name: 'HERRO',
+		type: 'output'
+	};
+
+	// export let type = 'input';
+	// export let label = 'Loop Label';
+	// export let type = 'String';
+
+	// Methods
+	function handleClick(event) {
+		console.log(event.currentTarget.getBoundingClientRect());
+	}
+
 </script>
 
-<main class='main'>
-	{#if !isInput}
-		<span class='loop-label'>{label}</span>
+<main class="main">
+	{#if (loop.type === 'input')}
+		<span class="loop-label">{loop.name}</span>
 	{/if}
 	<svg height="24" width="24">
-		<circle />
+		<circle r="8" cx="12" cy="12" on:click={handleClick} />
 	</svg>
-	{#if isInput}
-		<span class='loop-label'>{label}</span>
+	{#if (loop.type === 'output')}
+		<span class="loop-label">{loop.name}</span>
 	{/if}
 </main>
 
 <style>
-    .main {
-        display: flex;
-        /* background-color: aqua; */
-        align-items: center;
-    }
+	.main {
+		display: flex;
+		/* background-color: aqua; */
+		align-items: center;
+	}
 
 	circle {
-		r: 8;
-		cx: 12;
-		cy: 12;
 		box-sizing: border-box;
 		stroke: black;
 		stroke-width: 1;
@@ -37,13 +45,13 @@
 		fill: purple;
 	}
 
-    .loop-label {
-        font-family: 'Mochiy Pop One', sans-serif;
-        font-size: small;
-        color: #d7dae5;
-        padding-left: 6px;
-        padding-right: 6px;
-    }
+	.loop-label {
+		font-family: 'Mochiy Pop One', sans-serif;
+		font-size: small;
+		color: #d7dae5;
+		padding-left: 6px;
+		padding-right: 6px;
+	}
 
-    @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
 </style>

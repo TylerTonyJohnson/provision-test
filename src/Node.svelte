@@ -1,39 +1,46 @@
 <script>
 	import Loop from './Loop.svelte';
 
-	export let x = 0;
-	export let y = 0;
-	export let w;
-	export let h;
-	export let loopsInput = [1, 2, 3, 4];
-	export let loopsOutput = [1, 2, 3];
+    export let node = {
+        name: "node name",       
+        x: 10,
+        y: 20,
+        loops: [
+            {
+                name: 'HERRO',
+                type: 'input'  
+            },
+            {
+                name: 'HADOO',
+                type: 'input'  
+            },
+            {
+                name: 'Oh no',
+                type: 'output'  
+            }
+        ]
+    }
+
     const minWidth = 100;
     const minHeight = 200;
 
-	let isDragging = false;
-	let offset;
+	let isMoving = false;
+
+    // Methods
 
 	function handlePointerDown(event) {
-		if (isDragging === false) isDragging = true;
-
-		const rect = event.currentTarget.getBoundingClientRect();
-		offset = {
-			x: event.clientX - rect.left,
-			y: event.clientY - rect.top
-		};
+		isMoving = true;
 	}
 
 	function handlePointerUp(event) {
-		if (isDragging === true) isDragging = false;
+        isMoving = false;
 	}
 
 	function handlePointerMove(event) {
-		if (isDragging === false) return;
+		if (isMoving === false) return;
 
-		x = event.clientX - offset.x;
-		y = event.clientY - offset.y;
-
-		console.log(x, y);
+        node.x += event.movementX;
+        node.y += event.movementY;
 	}
 
     function addLoop() {
@@ -43,44 +50,38 @@
 	function handleContextMenu(event) {
 		alert('hello!');
 	}
+
 </script>
+<svelte:window 	
+    on:pointerup={handlePointerUp}
+    on:pointermove={handlePointerMove}/>
+
+<!-- Structure -->
 
 <main
 	class="main"
 	on:pointerdown|preventDefault|stopPropagation={handlePointerDown}
-	on:pointerup={handlePointerUp}
-	on:pointermove={handlePointerMove}
 	on:contextmenu|preventDefault|stopPropagation={handleContextMenu}
 	style="
-        left: {x}px; 
-        top: {y}px;"
+        left: {node.x}px; 
+        top: {node.y}px;"
 >
 	<div class="header">
-		<span>NODE NAME</span>
+		<span>{node.name}</span>
 	</div>
 	<div class="body">
 		<div class="bar">
-			{#each loopsInput as loop}
-				<Loop isInput={true}/>
+			{#each node.loops as loop}
+                {#if (loop.type === 'input')}
+				    <Loop loop={loop}/>
+                {/if}
 			{/each}
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <div class='add-button'
-                on:click={addLoop}
-                >
-                <svg
-                    class="svg-icon add"
-                    viewBox="0 0 1024 1024"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    ><path
-                        d="M512 64C265.6 64 64 265.6 64 512s201.6 448 448 448 448-201.6 448-448S758.4 64 512 64z m192 480h-160v160c0 19.2-12.8 32-32 32s-32-12.8-32-32v-160h-160c-19.2 0-32-12.8-32-32s12.8-32 32-32h160v-160c0-19.2 12.8-32 32-32s32 12.8 32 32v160h160c19.2 0 32 12.8 32 32s-12.8 32-32 32z"
-                    /></svg
-                >
-            </div>
 		</div>
 		<div class="bar">
-			{#each loopsOutput as loop}
-				<Loop isInput={false}/>
+			{#each node.loops as loop}
+                {#if (loop.type === 'output')}
+				    <Loop loop={loop}/>
+                {/if}
 			{/each}
 		</div>
 	</div>
@@ -126,9 +127,19 @@
 	.bar {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		/* align-items: center; */
 		/* background-color: blue; */
 	}
+
+    .add-button {
+        flex-shrink: 1;
+        /* background-color: aliceblue; */
+        font-family: 'Mochiy Pop One', sans-serif;
+        font-size: small;
+        color: #d7dae5;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
 
 	.add {
 		height: 20px;
@@ -146,6 +157,8 @@
     .add:hover {
         fill: purple;
     }
+
+
 
     @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
 </style>

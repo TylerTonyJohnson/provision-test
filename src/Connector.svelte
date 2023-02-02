@@ -1,20 +1,29 @@
 <script>
-	import Node from "./Node.svelte";
+	import { onMount } from "svelte";
+    import Node from "./Node.svelte";
 	import Strand from "./Strand.svelte";
 
 	export let display = 'HEPPTY';
 
-    const newNode = {    
-            x: 10,
-            y: 20
-        }
-
     let nodes = [
-        newNode, 
-        newNode
+        
     ];
 
-    let strands = [1];
+    const startStrand = {
+        knotA: {
+            x: 100,
+            Y: 100
+        }, 
+        knotB: {
+            x: 200,
+            y: 200
+        }
+    }
+
+    let strands = [startStrand];
+
+    addNode();
+
 
 //  Methods
 
@@ -23,16 +32,36 @@
 	}
 
     function addNode() {
+        const newNode = {
+            name: "Tootles",
+            x: 100,
+            y: 200,
+            loops: [
+            {
+                name: 'HERRO',
+                type: 'input'  
+            },
+            {
+                name: 'HADOO',
+                type: 'input'  
+            },
+            {
+                name: 'Oh no',
+                type: 'output'  
+            }
+        ]
+        }   
         nodes = [...nodes, newNode];
     }
 
     function handleContextMenu() {
-        alert("Context Menu!");
+
     }
 </script>
 
 <main class="main"
-    on:contextmenu|preventDefault={handleContextMenu}>
+    on:contextmenu={handleContextMenu}>
+    <!-- Menu -->
 	<div class='ui'>
 		<span class="display">{display}</span>
 		<div class="buttons">
@@ -40,14 +69,13 @@
 			<button on:click={callAlert}>Delete</button>
 		</div>
 	</div>
+    <!-- Nodes -->
     {#each nodes as node}
         <Node
-            x={node.x}
-            y={node.y}
-            w={node.w}
-            h={node.h}
+            bind:node={node}
         />
     {/each}
+    <!-- Strands -->
     {#each strands as strand}
         <Strand/>
     {/each}
@@ -63,6 +91,8 @@
 		width: 100%;
 		height: 100%;
 		line-height: 100%;
+        overflow: hidden;
+        user-select: none;
 	}
 
     .ui {
