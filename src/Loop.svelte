@@ -16,13 +16,13 @@
 </script>
 
 <main class="main">
-	{#if (loop.type === 'input')}
+	{#if (loop.type === 'output')}
 		<span class="loop-label">{loop.name}</span>
 	{/if}
 	<svg height="24" width="24">
 		<circle r="8" cx="12" cy="12" on:click={handleClick} />
 	</svg>
-	{#if (loop.type === 'output')}
+	{#if (loop.type === 'input')}
 		<span class="loop-label">{loop.name}</span>
 	{/if}
 </main>
