@@ -2,22 +2,23 @@
 	import Knot from './Knot.svelte';
 
     export let strand = {
-        knotA: {
+        // Default
+        knotStart: {
             x: 100,
             y: 100,
             target: undefined
         }, 
-        knotB: {
+        knotEnd: {
             x: 200,
             y: 200,
             target: undefined
         }
     }
 
-    $: width = Math.abs(strand.knotB.x - strand.knotA.x);
-    $: height = Math.abs(strand.knotB.y - strand.knotA.y);
-    $: leftBorder = Math.min(strand.knotA.x, strand.knotB.x);
-    $: topBorder = Math.min(strand.knotA.y, strand.knotB.y);
+    $: width = Math.abs(strand.knotEnd.x - strand.knotStart.x);
+    $: height = Math.abs(strand.knotEnd.y - strand.knotStart.y);
+    $: leftBorder = Math.min(strand.knotStart.x, strand.knotEnd.x);
+    $: topBorder = Math.min(strand.knotStart.y, strand.knotEnd.y);
 	$: tension = 0.45 * width;
 
 	// Methods
@@ -37,12 +38,12 @@
             height: {height};'>
         <path
             class="strand"
-			d="M{strand.knotA.x - leftBorder},{strand.knotA.y - topBorder} C{strand.knotA.x - leftBorder + tension},{strand.knotA.y - topBorder} {strand.knotB.x - leftBorder -
-				tension},{strand.knotB.y - topBorder} {strand.knotB.x - leftBorder},{strand.knotB.y - topBorder}"
+			d="M{strand.knotStart.x - leftBorder},{strand.knotStart.y - topBorder} C{strand.knotStart.x - leftBorder + tension},{strand.knotStart.y - topBorder} {strand.knotEnd.x - leftBorder -
+				tension},{strand.knotEnd.y - topBorder} {strand.knotEnd.x - leftBorder},{strand.knotEnd.y - topBorder}"
 		/>
     </svg>
-    <Knot bind:x={strand.knotA.x} bind:y={strand.knotA.y}/>
-    <Knot bind:x={strand.knotB.x} bind:y={strand.knotB.y}/>
+    <Knot bind:x={strand.knotStart.x} bind:y={strand.knotStart.y}/>
+    <Knot bind:x={strand.knotEnd.x} bind:y={strand.knotEnd.y}/>
 
 
 <style>

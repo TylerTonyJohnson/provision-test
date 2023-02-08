@@ -51,6 +51,7 @@
 		color: #d7dae5;
 		padding-left: 6px;
 		padding-right: 6px;
+		border: solid gray 1px;
 	}
 
 	@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');

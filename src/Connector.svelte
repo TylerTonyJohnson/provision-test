@@ -1,20 +1,29 @@
+<!-- LOGIC -->
+
 <script>
-	import { onMount } from "svelte";
+    import NodeData from './NodeData';
     import Node from "./Node.svelte";
 	import Strand from "./Strand.svelte";
+	import JsonViewerData from './JSONViewerData';
+	import JSONViewer from './JSONViewer.svelte';
+	import JSONLine from './JSONLine.svelte';
 
 	export let display = 'HEPPTY';
 
-    let nodes = [
-        
-    ];
+    // Set up structure
+    let mousePos = {
+        x: 0,
+        y: 0
+    }
+
+    let nodes = [];
 
     const startStrand = {
-        knotA: {
+        knotStart: {
             x: 100,
             Y: 100
         }, 
-        knotB: {
+        knotEnd: {
             x: 200,
             y: 200
         }
@@ -22,8 +31,13 @@
 
     let strands = [startStrand];
 
-    addNode();
+    // Tinker values
 
+    addNode(200,200);
+    nodes[0].addLoop("Charge","input",strands[0]);
+
+    const view = new JsonViewerData;
+    // nodes = [...nodes, view];
 
 //  Methods
 
@@ -31,36 +45,35 @@
 		alert(event.target.innerHTML);
 	}
 
-    function addNode() {
-        const newNode = {
-            name: "Tootles",
-            x: 100,
-            y: 200,
-            loops: [
-            {
-                name: 'HERRO',
-                type: 'input'  
-            },
-            {
-                name: 'HADOO',
-                type: 'input'  
-            },
-            {
-                name: 'Oh no',
-                type: 'output'  
-            }
-        ]
-        }   
+    function addNode(x, y) {
+        const newNode = new NodeData(x, y);
         nodes = [...nodes, newNode];
     }
 
-    function handleContextMenu() {
+    function handlePointerMove(event) {
+        mousePos = { 
+            x:event.clientX, 
+            y:event.clientY
+        }
+    }
 
+    function handleContextMenu(event) {
+        addNode(event.clientX, event.clientY);
+    }
+
+    function handleKeyDown(event) {
+        switch(event.keyCode) {
+            case 75:
+                addNode(mousePos.x, mousePos.y);
+                break;
+        }
     }
 </script>
 
+<!-- STRUCTURE -->
+
 <main class="main"
-    on:contextmenu={handleContextMenu}>
+    on:contextmenu|preventDefault={handleContextMenu}>
     <!-- Menu -->
 	<div class='ui'>
 		<span class="display">{display}</span>
@@ -71,15 +84,19 @@
 	</div>
     <!-- Nodes -->
     {#each nodes as node}
-        <Node
-            bind:node={node}
-        />
+        <Node bind:nodeData={node}/>
     {/each}
     <!-- Strands -->
     {#each strands as strand}
         <Strand/>
     {/each}
+    <JSONViewer />
 </main>
+<svelte:window 
+    on:keydown={handleKeyDown}
+    on:pointermove={handlePointerMove}/>
+
+<!-- STYLE -->
 
 <style>
 	.main {

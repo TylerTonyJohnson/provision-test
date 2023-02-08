@@ -1,9 +1,9 @@
 <!-- Logic -->
 
 <script>
-import Connector from "../Connector.svelte";
+    import Connector from "../Connector.svelte";
 	import Node from "../Node.svelte";
-import Viewer from "../Viewer.svelte";
+    import Viewer from "../Viewer.svelte";
 
 
 </script>
@@ -11,10 +11,7 @@ import Viewer from "../Viewer.svelte";
 <!-- Structure -->
 
 <main class='main'>
-    <Connector display='Todl ya so'>
-        <Viewer/>
-        <Node/>
-    </Connector> 
+    <Connector display='Todl ya so'></Connector> 
 </main>
 
 <!-- Style -->

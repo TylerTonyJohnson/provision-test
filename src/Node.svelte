@@ -1,32 +1,14 @@
 <script>
+	// import { onMount } from 'svelte';
 	import Loop from './Loop.svelte';
 
-    export let node = {
-        name: "node name",       
-        x: 10,
-        y: 20,
-        loops: [
-            {
-                name: 'HERRO',
-                type: 'input'  
-            },
-            {
-                name: 'HADOO',
-                type: 'input'  
-            },
-            {
-                name: 'Oh no',
-                type: 'output'  
-            }
-        ]
-    }
-
-    const minWidth = 100;
-    const minHeight = 200;
+    export let nodeData;
 
 	let isMoving = false;
 
     // Methods
+
+	// onMount(console.log(nodeData.x, nodeData.y));
 
 	function handlePointerDown(event) {
 		isMoving = true;
@@ -39,8 +21,11 @@
 	function handlePointerMove(event) {
 		if (isMoving === false) return;
 
-        node.x += event.movementX;
-        node.y += event.movementY;
+        nodeData.x += event.movementX;
+        nodeData.y += event.movementY;
+		// nodeData.loops[0].knot.knotEnd.x = nodeData.x;
+		// nodeData.loops[0].knot.knotEnd.y = nodeData.y;
+		// console.log(nodeData.loops[0].knot.knotEnd);
 	}
 
     function addLoop() {
@@ -63,22 +48,25 @@
 	on:pointerdown|preventDefault|stopPropagation={handlePointerDown}
 	on:contextmenu|preventDefault|stopPropagation={handleContextMenu}
 	style="
-        left: {node.x}px; 
-        top: {node.y}px;"
+        left: {nodeData.x}px; 
+        top: {nodeData.y}px;"
 >
 	<div class="header">
-		<span>{node.name}</span>
+		<span>{nodeData.name.toUpperCase()}</span>
 	</div>
 	<div class="body">
 		<div class="bar">
-			{#each node.loops as loop}
+			{#each nodeData.loops as loop}
                 {#if (loop.type === 'input')}
 				    <Loop loop={loop}/>
                 {/if}
 			{/each}
 		</div>
+		<div class='contents'>
+			<div>{nodeData.contents}</div>
+		</div>
 		<div class="bar">
-			{#each node.loops as loop}
+			{#each nodeData.loops as loop}
                 {#if (loop.type === 'output')}
 				    <Loop loop={loop}/>
                 {/if}
@@ -127,8 +115,14 @@
 	.bar {
 		display: flex;
 		flex-direction: column;
+		padding: 4px;
 		/* align-items: center; */
 		/* background-color: blue; */
+	}
+
+	.contents {
+		background-color: white;
+		padding: 10px;
 	}
 
     .add-button {
