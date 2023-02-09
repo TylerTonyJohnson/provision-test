@@ -37,7 +37,7 @@
 	</div>
 	<div class="body">
 		<div class="contents">
-			<JsonLine currentLine={nodeData.contents}/>
+			<JsonLine value={nodeData.contents}/>
 		</div>
 	</div>
 </main>

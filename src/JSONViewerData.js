@@ -3,16 +3,32 @@ export default class JSONViewerData {
 		this.name = 'Doota';
 		this.x = x;
 		this.y = y;
-		this.contents = {
-            name: 'Doofy',
-            friend: 'Bloob',
-            howdy: 'Boff',
-            bobby: 'Hoopy',
-            blob: {
-                
-            }
-        }
-        this.contentsB = {
+		// this.contents = [
+        //     true,
+        //     6, 
+        //     "Harold",
+        //     [
+        //         false,
+        //         99,
+        //         "Worship the ground",
+        //         {
+        //             name: 'Virgil',
+        //             age: 7,
+        //             married: false,
+        //             cousins: [
+        //                 'Tom',
+        //                 'Marvolo',
+        //                 'Riddle'
+        //             ],
+        //             consciousness: {
+        //                 brain: true,
+        //                 mind: true,
+        //                 soul: false
+        //             }
+        //         }
+        //     ]
+        // ];
+        this.contents = {
 			entity: {
 				keys: {
 					orgId: 'Calix',

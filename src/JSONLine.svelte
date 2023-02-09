@@ -1,9 +1,8 @@
 <!-- LOGIC -->
-
 <script>
-    export let currentLine;
+	export let value;
 	export let indent = 0;
-
+	export let key;
 
 	let open = true;
 
@@ -11,21 +10,20 @@
 		open = !open;
 	}
 
-    // Figure out what the children are.
-    // switch(typeof(line)) {
-    //     case 'object':
-    //         children = Object.entries(line);
-    //         break;
-    //     case 'array':
-    //         children = line;
-    //         break;
-    //     default:
-    //         // children = null;
-    //         break;
-    // }
+	// Figure out what the children are.
+	// switch(typeof(line)) {
+	//     case 'object':
+	//         children = Object.entries(line);
+	//         break;
+	//     case 'array':
+	//         children = line;
+	//         break;
+	//     default:
+	//         // children = null;
+	//         break;
+	// }
 
-    console.log(Object.entries(currentLine));
-
+	// console.log(Object.entries(currentLine));
 </script>
 
 <!-- STRUCTURE -->
@@ -41,18 +39,48 @@
 	{typeof(line)} {open ? "(open)" : "(closed)"}
 </h3> -->
 
-
 <!-- OBJECT -->
-{#if typeof(currentLine)==='object'}
-    <div style="padding-left: {indent}px">{`{`}</div>
-    {#each Object.entries(currentLine) as [key, value]}
-        <svelte:self currentLine={value} indent={indent+24}/>
+{#if typeof value === 'string'}
+	<div class="string" style="padding-left: {indent}px">
+		{key ? `${key}: ` : ''}
+        {value}
+	</div>
+{:else if typeof value === 'number'}
+	<div class="number" style="padding-left: {indent}px">
+        {key ? `${key}: ` : ''}
+		{value}
+	</div>
+{:else if typeof value === 'boolean'}
+	<div class="boolean" style="padding-left: {indent}px">
+		{key ? `${key}: ` : ''}
+        {value}
+	</div>
+{:else if Array.isArray(value)}
+    <div class="array" style="padding-left: {indent}px">
+        {key ? `${key}: ` : ''}
+        {`[`}
+    </div>
+    {#each value as child}
+        <svelte:self value={child} indent={indent + 24}/>
     {/each}
-    <div style="padding-left: {indent}px">{`}`}</div>
-{:else if typeof(currentLine)==='array'}
+    <div class="array" style="padding-left: {indent}px">
+        {`]`}
+    </div>
 
-{:else}
-    <div style='padding-left: {indent}px'>{currentLine}</div>
+{:else if typeof value === 'object'}
+	<div style="padding-left: {indent}px">
+        {key ? `${key}: ` : ''}
+        {`{`}
+    </div>
+	{#each Object.entries(value) as [key, value]}
+		<svelte:self key={key} value={value} indent={indent + 24} />
+	{/each}
+	<div style="padding-left: {indent}px">
+        {`}`}
+    </div>
+<!-- {:else if typeof currentLine === 'array'} -->
+	<!-- {:else}
+    <div style='padding-left: {indent}px'>{currentLine}</div> -->
 {/if}
 
 <!-- STYLE -->
@@ -61,7 +89,7 @@
 		display: flex;
 		justify-content: left;
 		align-items: center;
-        gap: 8px;
+		gap: 8px;
 		background-color: teal;
 		cursor: pointer;
 		user-select: none;
@@ -89,4 +117,20 @@
 	.material-symbols-outlined {
 		font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
 	}
+
+	.string {
+		color: green;
+	}
+
+	.number {
+		color: orange;
+	}
+
+	.boolean {
+		color: purple;
+	}
+
+    .array {
+        color: red;
+    }
 </style>
