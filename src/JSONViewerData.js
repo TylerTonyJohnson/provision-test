@@ -28,6 +28,7 @@ export default class JSONViewerData {
         //         }
         //     ]
         // ];
+
         this.contents = {
 			entity: {
 				keys: {

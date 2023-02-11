@@ -76,13 +76,18 @@
 	.body {
 		display: flex;
 		justify-content: space-between;
-		background-color: #0b0c0d;
 		flex: 1;
+		background-color: #0b0c0d;
+
 	}
 
 	.contents {
 		background-color: white;
 		padding: 10px;
 		margin: 4px;
+        overflow-y: scroll;
+        max-height: 500px;
+        max-width: 500px;
+        user-select: text;
 	}
 </style>

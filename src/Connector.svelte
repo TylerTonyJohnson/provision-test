@@ -73,7 +73,7 @@
 <!-- STRUCTURE -->
 
 <main class="main"
-    on:contextmenu|preventDefault={handleContextMenu}>
+    on:contextmenu|preventDefault|stopPropagation={handleContextMenu}>
     <!-- Menu -->
 	<div class='ui'>
 		<span class="display">{display}</span>
