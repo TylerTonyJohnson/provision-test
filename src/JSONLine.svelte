@@ -1,10 +1,10 @@
 <!-- LOGIC -->
 <script>
+	export let key;
 	export let value;
 	export let indent = 0;
-	export let key;
+	export let open = true;
 
-	let open = true;
 	const indentVal = 12;
 
 	function toggleOpen() {
@@ -14,22 +14,11 @@
 
 <!-- STRUCTURE -->
 
-<!-- <main class="main" style="padding-left: {indent}px" on:click={toggleOpen}>
-    <span class="material-symbols-outlined"
-        style='transform: rotate({open ? '0deg' : '-90deg'});'>
-        expand_more
-        </span>
-	<p>{name}</p>
-</main> -->
-<!-- <h3 style="padding-left: {indent}px" on:click={toggleOpen}>
-	{typeof(line)} {open ? "(open)" : "(closed)"}
-</h3> -->
-
-
 	<!-- Normal -->
 	{#if typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean'}
 		<div class="line" style="padding-left: {indent}px"
         on:click={toggleOpen}>
+            <span class="material-symbols-outlined"></span>
 			{#if key !== undefined}
 				<div class="key">{key}:</div>
 			{/if}
@@ -45,7 +34,7 @@
             expand_more
             </span>
 			{#if key !== undefined}
-				<div class="key">{key}:</div>
+				<div class="array">{key}:</div>
 			{/if}
 			<div class="array">{open ?`[` : '[...]'}</div>
 		</div>
@@ -67,7 +56,7 @@
             expand_more
             </span>
             {#if key !== undefined}
-                <div class="key">{key}:</div>
+                <div class="object">{key}:</div>
             {/if}
 			<div class="object">{open ?`{` : '{...}'}</div>
 		</div>
@@ -83,9 +72,6 @@
 
 <!-- STYLE -->
 <style>
-    /* .line {
-        display: flex;
-    } */
 
 	.line {
 		display: flex;
@@ -93,7 +79,7 @@
 		align-items: center;
 		gap: 0.5em;
 		cursor: pointer;
-		user-select: none;
+		/* user-select: none; */
 		/* padding: 6px; */
 		/* overflow: hidden; */
 
@@ -110,11 +96,13 @@
     }
 
 	span {
+        user-select: none;
+        /* aspect-ratio: 1; */
 		/* display: inline; */
 		/* background-color: bisque; */
         font-size: large;
         font-weight: bold;
-		/* width: 0.5em; */
+		width: 1em;
 		/* height: 0.5em; */
 		/* margin: auto; */
 		transition: transform 0.1s ease-out;
@@ -124,7 +112,10 @@
 
 	.material-symbols-outlined {
 		font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        /* background-color: aqua; */
 	}
+
+/* Colors */
 
 	.string {
 		color: green;

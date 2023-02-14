@@ -3,6 +3,7 @@
 	import Loop from './Loop.svelte';
 
     export let nodeData;
+	export let pan = {x: 0, y: 0};
 
 	let isMoving = false;
 
@@ -48,8 +49,8 @@
 	on:pointerdown|preventDefault|stopPropagation={handlePointerDown}
 	on:contextmenu|preventDefault|stopPropagation={handleContextMenu}
 	style="
-        left: {nodeData.x}px; 
-        top: {nodeData.y}px;"
+        left: {nodeData.x + pan.x}px; 
+        top: {nodeData.y + pan.y}px;"
 >
 	<div class="header">
 		<span>{nodeData.name.toUpperCase()}</span>
@@ -58,7 +59,7 @@
 		<div class="bar">
 			{#each nodeData.loops as loop}
                 {#if (loop.type === 'input')}
-				    <Loop loop={loop}/>
+				    <Loop loopData={loop}/>
                 {/if}
 			{/each}
 		</div>
@@ -68,7 +69,7 @@
 		<div class="bar">
 			{#each nodeData.loops as loop}
                 {#if (loop.type === 'output')}
-				    <Loop loop={loop}/>
+				    <Loop loopData={loop}/>
                 {/if}
 			{/each}
 		</div>

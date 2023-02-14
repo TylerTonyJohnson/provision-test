@@ -1,7 +1,7 @@
 <!-- Logic -->
 
 <script>
-    import Connector from "../Connector.svelte";
+    import Loom from "../Loom.svelte";
 	import Node from "../Node.svelte";
     import Viewer from "../Viewer.svelte";
 
@@ -11,7 +11,7 @@
 <!-- Structure -->
 
 <main class='main'>
-    <Connector display='Todl ya so'></Connector> 
+    <Loom display='Todl ya so'></Loom> 
 </main>
 
 <!-- Style -->

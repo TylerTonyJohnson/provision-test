@@ -1,12 +1,20 @@
-<script>
-	import { stop_propagation } from 'svelte/internal';
-	import JsonLine from './JSONLine.svelte';
-	import JSONViewerData from './JSONViewerData';
+<!-- LOGIC -->
 
-	export let nodeData = new JSONViewerData();
+<script>
+	import Loop from "./Loop.svelte";
+
     export let pan = {x: 0, y: 0};
 
+    let name='Steven';
+    let x = 150;
+    let y = 200;
+    let value = true;
 	let isMoving = false;
+
+    $: loopData = {
+        name: value,
+        type: 'output'
+    }
 
 	function handlePointerDown(event) {
 		isMoving = true;
@@ -19,16 +27,12 @@
 	function handlePointerMove(event) {
 		if (isMoving === false) return;
 
-		nodeData.x += event.movementX;
-		nodeData.y += event.movementY;
+		x += event.movementX;
+		y += event.movementY;
 	}
 
-    function handleInput(event) {
-
-    }
-
-    function collapse() {
-        
+    function toggleValue(event) {
+        value = !value;
     }
 
 </script>
@@ -38,29 +42,25 @@
 <main
 	class="main"
 	style="
-    left: {nodeData.x + pan.x}px;
-    top: {nodeData.y + pan.y}px;"
+    left: {x + pan.x}px;
+    top: {y + pan.y}px;"
 >
 	<div class="header" on:pointerdown={handlePointerDown}>
-		<span>{nodeData.name.toUpperCase()}</span>
+		<span>{name.toUpperCase()}</span>
 	</div>
-    <div class='tools'>
-        <div class='expand'>+</div>
-        <input class='search' 
-            placeholder='Search Key'
-            on:input={handleInput}/>
-        <input class='search' placeholder='Search Value'/>
-        <div class='collapse'>-</div>
-    </div>
 	<div class="body">
-		<div class="contents">
-			<JsonLine value={nodeData.contents} />
+		<div 
+            class="contents"
+            style="background-color: {value ? 'red' : 'gray'};"
+            on:click={toggleValue}>
 		</div>
+        <Loop {loopData}/>
 	</div>
 </main>
 <svelte:window on:pointerup={handlePointerUp} on:pointermove={handlePointerMove} />
 
 <!-- STYLE -->
+
 <style>
 	.main {
 		position: absolute;
@@ -69,6 +69,7 @@
 
 		background-color: lightcoral;
 		border: solid gray 1px;
+        min-width: 6em;
 
 		overflow: hidden;
 		user-select: none;
@@ -89,24 +90,6 @@
 		/* box-shadow: ; */
 	}
 
-    .tools {
-        display: grid;
-        grid-template-columns: auto 1fr 1fr auto;
-        /* background-color: aqua; */
-    }
-
-    .search {
-        border: solid purple 1px;
-        padding: 5px;
-    }
-
-    .expand, .collapse {
-        width: 1em;
-        height: 1em;
-        text-align: center;
-        line-height: 100%;
-    }
-
 	.body {
 		display: flex;
 		justify-content: space-between;
@@ -118,12 +101,13 @@
 		background-color: white;
 		padding: 10px;
 		margin: 4px;
-		overflow-y: scroll;
-		min-width: 200px;
-		min-height: 50px;
-		max-height: 500px;
-		max-width: 500px;
 		user-select: text;
+        border-radius: 50%;
+		/* overflow-y: scroll; */
+		/* min-width: 200px; */
+		/* min-height: 50px; */
+		/* max-height: 500px; */
+		/* max-width: 500px; */
 		/* transition: width 0.1s ease-in-out; */
 	}
 </style>

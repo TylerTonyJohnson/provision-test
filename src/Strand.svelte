@@ -14,6 +14,7 @@
             target: undefined
         }
     }
+    export let pan = {x: 0, y: 0};
 
     $: width = Math.abs(strand.knotEnd.x - strand.knotStart.x);
     $: height = Math.abs(strand.knotEnd.y - strand.knotStart.y);

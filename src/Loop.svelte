@@ -1,5 +1,5 @@
 <script>
-	export let loop = {
+	export let loopData = {
 		name: 'HERRO',
 		type: 'output'
 	};
@@ -16,14 +16,14 @@
 </script>
 
 <main class="main">
-	{#if (loop.type === 'output')}
-		<span class="loop-label">{loop.name}</span>
+	{#if (loopData.type === 'output')}
+		<span class="loop-label">{loopData.name}</span>
 	{/if}
 	<svg height="24" width="24">
 		<circle r="8" cx="12" cy="12" on:click={handleClick} />
 	</svg>
-	{#if (loop.type === 'input')}
-		<span class="loop-label">{loop.name}</span>
+	{#if (loopData.type === 'input')}
+		<span class="loop-label">{loopData.name}</span>
 	{/if}
 </main>
 
@@ -52,6 +52,7 @@
 		padding-left: 6px;
 		padding-right: 6px;
 		border: solid gray 1px;
+		/* min-width: 3em; */
 	}
 
 	@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
