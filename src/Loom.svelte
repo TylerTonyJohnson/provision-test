@@ -6,6 +6,7 @@
 	import JsonViewerData from './JSONViewerData';
 	import JSONViewer from './JSONViewer.svelte';
 	import BooleanSwitch from './BooleanSwitch.svelte';
+	import StrandData from './StrandData.js';
 
 	export let display = 'HEPPTY';
 
@@ -18,29 +19,13 @@
 	let isPanning = false;
 	let panOffset = { x: 0, y: 0 }
 
-
 	let nodes = [];
+	let strands = [];
 
-	const startStrand = {
-		knotStart: {
-			x: 100,
-			Y: 100
-		},
-		knotEnd: {
-			x: 200,
-			y: 200
-		}
-	};
+	// Tinker Values
 
-	let strands = [startStrand];
-
-	// Tinker values
-
-	addNode(200, 200);
-	nodes[0].addLoop('Charge', 'input', strands[0]);
-
-	const view = new JsonViewerData();
-	// nodes = [...nodes, view];
+	addNode();
+	addStrand();
 
 	//  Methods
 
@@ -51,6 +36,7 @@
 	function addNode(x, y) {
 		const newNode = new NodeData(x, y);
 		nodes = [...nodes, newNode];
+		console.log(newNode);
 	}
 
 	function handlePointerMove(event) {
@@ -62,10 +48,8 @@
 		if (isPanning) {
 			panOffset.x += event.movementX;
 			panOffset.y += event.movementY;
-			console.log(panOffset);
+			// console.log(panOffset);
 		}
-
-		
 	}
 
 	function handleContextMenu(event) {
@@ -75,7 +59,11 @@
 	function handleKeyDown(event) {
 		switch (event.keyCode) {
 			case 75:
-				addNode(mousePos.x, mousePos.y);
+				// addNode(mousePos.x, mousePos.y);
+				addStrand();
+				break;
+			case 32:
+				panOffset = {x:0 ,y:0};
 				break;
 		}
 	}
@@ -89,13 +77,24 @@
 		if (event.which !== 2) return;
 		isPanning = false;
 	}
+
+	function handlePointerLeave(event) {
+		isPanning = false;
+	}
+
+	function addStrand() {
+		const newStrand = new StrandData();
+		strands = [...strands, newStrand];	
+		// console.log(newStrand);
+	}
 </script>
 
 <!-- STRUCTURE -->
 
 <main class="main" 
 	on:contextmenu|preventDefault|stopPropagation={handleContextMenu}
-	on:mousedown={handleMouseDown}>
+	on:mousedown={handleMouseDown}
+	on:pointerleave={handlePointerLeave}>
 	<!-- Menu -->
 	<div class="ui">
 		<span class="display">{display}</span>
@@ -121,7 +120,6 @@
 	on:keydown={handleKeyDown} 
 	on:pointermove={handlePointerMove} 
 	on:mouseup={handleMouseUp}/>
-
 <!-- STYLE -->
 <style>
 	.main {
@@ -147,7 +145,7 @@
 
     .loom {
         overflow: hidden;
-        background-color: #16181a;
+        background: linear-gradient(rgb(8, 48, 48), #16181a);
         width: 100%;
         height: 100%;
     }

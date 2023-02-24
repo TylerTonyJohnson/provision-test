@@ -4,10 +4,6 @@
 		type: 'output'
 	};
 
-	// export let type = 'input';
-	// export let label = 'Loop Label';
-	// export let type = 'String';
-
 	// Methods
 	function handleClick(event) {
 		console.log(event.currentTarget.getBoundingClientRect());
@@ -19,7 +15,7 @@
 	{#if (loopData.type === 'output')}
 		<span class="loop-label">{loopData.name}</span>
 	{/if}
-	<svg height="24" width="24">
+	<svg class='circle' height="24" width="24">
 		<circle r="8" cx="12" cy="12" on:click={handleClick} />
 	</svg>
 	{#if (loopData.type === 'input')}
@@ -30,15 +26,19 @@
 <style>
 	.main {
 		display: flex;
+		/* position: relative;		 */
 		/* background-color: aqua; */
 		align-items: center;
 	}
 
-	circle {
-		box-sizing: border-box;
+	.circle {
+		/* position: absolute; */
+		/* box-sizing: border-box; */
 		stroke: black;
 		stroke-width: 1;
 		fill: orange;
+		/* margin-top: auto; */
+		/* margin-bottom: auto; */
 	}
 
 	circle:hover {

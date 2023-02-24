@@ -12,7 +12,9 @@
 	// onMount(console.log(nodeData.x, nodeData.y));
 
 	function handlePointerDown(event) {
-		isMoving = true;
+		if (event.which === 1) {
+			isMoving = true;
+		}
 	}
 
 	function handlePointerUp(event) {
@@ -24,9 +26,12 @@
 
         nodeData.x += event.movementX;
         nodeData.y += event.movementY;
-		// nodeData.loops[0].knot.knotEnd.x = nodeData.x;
-		// nodeData.loops[0].knot.knotEnd.y = nodeData.y;
-		// console.log(nodeData.loops[0].knot.knotEnd);
+
+		if (nodeData.loops[0].knot) {
+			nodeData.loops[0].knot.knotEnd.x = nodeData.x;
+			nodeData.loops[0].knot.knotEnd.y = nodeData.y;
+			console.log(nodeData.loops[0].knot.knotEnd);
+		}
 	}
 
     function addLoop() {
@@ -46,13 +51,13 @@
 
 <main
 	class="main"
-	on:pointerdown|preventDefault|stopPropagation={handlePointerDown}
 	on:contextmenu|preventDefault|stopPropagation={handleContextMenu}
 	style="
         left: {nodeData.x + pan.x}px; 
         top: {nodeData.y + pan.y}px;"
 >
-	<div class="header">
+	<div class="header"
+		on:pointerdown|preventDefault|stopPropagation={handlePointerDown}>
 		<span>{nodeData.name.toUpperCase()}</span>
 	</div>
 	<div class="body">
@@ -92,6 +97,7 @@
         
 		overflow: hidden;
 		user-select: none;
+		/* transition: left 0.5s linear, top 0.5s linear; */
 	}
 
 	.header {

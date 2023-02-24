@@ -3,6 +3,7 @@
 <script>
 	export let x = 20;
 	export let y = 20;
+    export let pan = {x: 0, y:0};
 	let r = 6;
     let borderPadding = 2;
 	let isMoving = false;
@@ -35,7 +36,7 @@
 
 <!-- Structure -->
 <svg class='svg' height={2*(r+borderPadding)} width={2*(r+borderPadding)} 
-    style='left: {x-width/2}px; top: {y-height/2}px;'>
+    style='left: {x-width/2 + pan.x}px; top: {y-height/2 + pan.y}px;'>
     <circle class="knot" cx={r+borderPadding}px cy={r+borderPadding}px r={r}
         on:pointerdown={handlePointerDown}
         on:click={handleClick}/>

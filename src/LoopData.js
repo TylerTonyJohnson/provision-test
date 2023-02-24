@@ -1,6 +1,8 @@
+import getRandomWord from "./randomWords";
+
 export default class LoopData {
     
-    constructor(name = "Hide Ho", type = "input", knot) {
+    constructor(name = getRandomWord(), type = "input", knot) {
         this.name = name;
         this.type = type;
         this.knot = knot;
@@ -10,5 +12,6 @@ export default class LoopData {
 
     connect(knot)  {
         this.knot = knot;
+        this.knot.x
     }
 }
